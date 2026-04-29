@@ -1,4 +1,4 @@
-### License Plate OCR Training (+Tenosrrt Inference)
+### License Plate OCR Training (+Tensorrt Inference)
 
 This repository contains code for training Lightweight & fast OCR models for license plate text recognition.
 Please make sure that you have docker and nvidia-docker-toolkit installed to mount gpu inside the container.
