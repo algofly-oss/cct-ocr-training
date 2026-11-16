@@ -1,0 +1,9 @@
+.git
+.local_archive
+dataset
+weights
+pretrained
+artifacts
+**/__pycache__
+**/.ipynb_checkpoints
+annotator/static/images/*

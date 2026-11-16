@@ -1,0 +1,17 @@
+CCT-S training and deployment reference workflows
+
+The model implementation is an installed dependency, fast-plate-ocr 1.1.0:
+https://github.com/ankandrew/fast-plate-ocr
+MIT License, Copyright (c) 2024 ankandrew.
+Dependency licensing and pretrained-weight terms remain applicable.
+No pretrained weights are distributed in this repository.
+
+The crop-label annotator is adapted from the shared PARSeq training-repository
+annotator provided under the Apache License, Version 2.0. Its license text is
+included at annotator/LICENSE. UI branding was changed to CCT-S; the storage
+and image/text-label API are unchanged.
+
+The existing remote repository had no root license. This notice does not
+retroactively license historical notebooks or claim ownership of third-party
+materials. The repository owner must choose a root license for the remaining
+original/new workflow files before promising general redistribution rights.

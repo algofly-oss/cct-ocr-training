@@ -1,0 +1,127 @@
+{
+  "model": "CCT-S task checkpoint",
+  "learned_parameters": 977510,
+  "fixed_blur_elements": 432,
+  "input_rgb_hw": [
+    64,
+    128
+  ],
+  "slots": 15,
+  "classes": 37,
+  "generic_pretrained_model": {
+    "parameters": 1060907,
+    "slots": 10,
+    "region_branch": true,
+    "not_the_measured_task_model": true
+  },
+  "scope": "predecoded RGB, resizing/transfer/model/decoding included; no disk decode",
+  "cohort": "256 reference plate crops; not a full-test accuracy result",
+  "profile_max_batch": 32,
+  "warmups": 5,
+  "repetitions": 3,
+  "measurements": [
+    {
+      "batch_size": 1,
+      "unique_images": 256,
+      "image_exposures": 768,
+      "batch_latency_ms": {
+        "mean": 0.44743982161458334,
+        "median": 0.4435635,
+        "p95": 0.478633
+      },
+      "images_per_second": 2234.937418827648,
+      "GPU_memory": {
+        "nvml_process_peak_bytes": 778043392,
+        "nvml_samples": 156,
+        "nvml_sample_interval_seconds": 0.002,
+        "nvml_error": null,
+        "nvml_memory_note": "Driver-accounted memory for this PID, including CUDA context; sampled peak, not an instantaneous allocation trace."
+      },
+      "evidence_sha256": "efabe33a56ccc9bddc0deb63f17afa91efbad064a6ded819be40088bbc1b952e"
+    },
+    {
+      "batch_size": 2,
+      "unique_images": 256,
+      "image_exposures": 768,
+      "batch_latency_ms": {
+        "mean": 0.5100637109375,
+        "median": 0.5045575,
+        "p95": 0.5532529999999999
+      },
+      "images_per_second": 3921.0787929295907,
+      "GPU_memory": {
+        "nvml_process_peak_bytes": 778043392,
+        "nvml_samples": 91,
+        "nvml_sample_interval_seconds": 0.002,
+        "nvml_error": null,
+        "nvml_memory_note": "Driver-accounted memory for this PID, including CUDA context; sampled peak, not an instantaneous allocation trace."
+      },
+      "evidence_sha256": "787e617f60addda072176c734877608e24123b0caec18be063f70e9610a0b116"
+    },
+    {
+      "batch_size": 8,
+      "unique_images": 256,
+      "image_exposures": 768,
+      "batch_latency_ms": {
+        "mean": 0.8688829687499999,
+        "median": 0.8591525,
+        "p95": 0.9240545
+      },
+      "images_per_second": 9207.223858362686,
+      "GPU_memory": {
+        "nvml_process_peak_bytes": 778043392,
+        "nvml_samples": 39,
+        "nvml_sample_interval_seconds": 0.002,
+        "nvml_error": null,
+        "nvml_memory_note": "Driver-accounted memory for this PID, including CUDA context; sampled peak, not an instantaneous allocation trace."
+      },
+      "evidence_sha256": "750e261e2a1fa96d7b9d99b37d0f07a1bfacbc4838fe5c8c74cd984305d0f746"
+    },
+    {
+      "batch_size": 16,
+      "unique_images": 256,
+      "image_exposures": 768,
+      "batch_latency_ms": {
+        "mean": 1.3228848541666667,
+        "median": 1.317996,
+        "p95": 1.38718335
+      },
+      "images_per_second": 12094.779035080104,
+      "GPU_memory": {
+        "nvml_process_peak_bytes": 778043392,
+        "nvml_samples": 30,
+        "nvml_sample_interval_seconds": 0.002,
+        "nvml_error": null,
+        "nvml_memory_note": "Driver-accounted memory for this PID, including CUDA context; sampled peak, not an instantaneous allocation trace."
+      },
+      "evidence_sha256": "05fb3c49259c31ec376b9c21d752d4fb3170354266f451df007a981650abef7a"
+    },
+    {
+      "batch_size": 32,
+      "unique_images": 256,
+      "image_exposures": 768,
+      "batch_latency_ms": {
+        "mean": 2.5136713333333334,
+        "median": 2.4830385,
+        "p95": 2.6489638
+      },
+      "images_per_second": 12730.383473628348,
+      "GPU_memory": {
+        "nvml_process_peak_bytes": 778043392,
+        "nvml_samples": 28,
+        "nvml_sample_interval_seconds": 0.002,
+        "nvml_error": null,
+        "nvml_memory_note": "Driver-accounted memory for this PID, including CUDA context; sampled peak, not an instantaneous allocation trace."
+      },
+      "evidence_sha256": "d70b95be12497b8b27c43adbb26164b772cc12cd9257efda08524598b0cec19f"
+    }
+  ],
+  "qualification": "Historical measured checkpoint; new dummy exports require their own parity and timing",
+  "accuracy_full_test": null,
+  "hardware_context": {
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "driver": "595.58.03",
+    "scope": "Reference-suite hardware verified by the repository maintainer; individual historical CCT batch artifacts omit GPU name and measurement date",
+    "measurement_date": null
+  }
+}

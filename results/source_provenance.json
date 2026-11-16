@@ -1,0 +1,31 @@
+{
+  "upstream": {
+    "name": "fast-plate-ocr",
+    "version": "1.1.0",
+    "source": "https://github.com/ankandrew/fast-plate-ocr",
+    "license": "MIT",
+    "copyright": "2024 ankandrew",
+    "usage": "Installed dependency; not vendored model source"
+  },
+  "local_architecture": "Existing CCT-S YAML retained unchanged",
+  "weight_inventory_cpu_h5": [
+    {
+      "role": "upstream_generic",
+      "keras_file_sha256": "dc6db494714d88e1fb0a21b4e4e96089842dd5440418262abfc382454453c2c8",
+      "model_state_elements": 1061339,
+      "fixed_blur_elements": 432,
+      "learned_parameters": 1060907
+    },
+    {
+      "role": "local_task",
+      "keras_file_sha256": "878acb941153804cdcaeb5e704919a48483aae3f70dd41b920e7c5b228df3c0c",
+      "model_state_elements": 977942,
+      "fixed_blur_elements": 432,
+      "learned_parameters": 977510
+    }
+  ],
+  "weights_redistributed": false,
+  "dummy_images": "Generated fictional labels and Pillow bundled font; no private source images",
+  "runtime_status": "CPU syntax and dataset checks; new GPU recipes require target-machine parity and timing",
+  "repository_license": "The historical repository has no root license. The shared annotator is Apache-2.0 (annotator/LICENSE); fast-plate-ocr is an MIT-licensed dependency. No blanket license for the remaining repository files is declared."
+}

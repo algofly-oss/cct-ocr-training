@@ -1,0 +1,36 @@
+{
+  "pass": true,
+  "scope": "CPU package imports, complete upstream config parsing and scratch architecture construction only; no optimizer/export/GPU qualification",
+  "python": "3.10.12",
+  "versions": {
+    "fast-plate-ocr": "1.1.0",
+    "tensorflow": "2.19.0",
+    "keras": "3.12.1",
+    "numpy": "1.26.4",
+    "Pillow": "12.3.0",
+    "opencv-python": "5.0.0.93",
+    "opencv-python-headless": null,
+    "onnx": "1.21.0",
+    "onnxruntime": null,
+    "onnxruntime-gpu": "1.23.2",
+    "tf2onnx": "1.17.0",
+    "onnxslim": "0.1.91",
+    "tensorrt": "10.15.1.29",
+    "pycuda": "2026.1"
+  },
+  "input_shape": [
+    null,
+    64,
+    128,
+    3
+  ],
+  "output_shape": [
+    null,
+    15,
+    37
+  ],
+  "learned_parameters": 977510,
+  "fixed_elements": 432,
+  "tensorflow_visible_gpu_count": 0,
+  "historical_lock_is_not_this_environment": true
+}

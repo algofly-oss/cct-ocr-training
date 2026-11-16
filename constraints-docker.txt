@@ -1,0 +1,8 @@
+# Compatibility constraints based on the checked CPU TensorFlow/Keras stack.
+# Docker build and GPU execution still require validation on the target host.
+tensorflow==2.19.0
+keras==3.12.1
+fast-plate-ocr==1.1.0
+numpy==1.26.4
+opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
