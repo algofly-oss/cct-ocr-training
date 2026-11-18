@@ -4,15 +4,21 @@ from pathlib import Path
 import numpy as np
 import cv2
 ALPHABET='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
-def decode(outputs):
+def decode(outputs, alphabet=ALPHABET, pad="_"):
     values=list(outputs.values()) if isinstance(outputs,dict) else outputs if isinstance(outputs,(list,tuple)) else [outputs]
-    candidates=[np.asarray(v) for v in values if len(v.shape)==3 and v.shape[-1]==37]
-    if len(candidates)!=1:raise ValueError('Expected exactly one [B,slots,37] plate output')
+    candidates=[np.asarray(v) for v in values if len(v.shape)==3 and v.shape[-1]==len(alphabet)]
+    if len(candidates)!=1:raise ValueError(f'Expected exactly one [B,slots,{len(alphabet)}] plate output')
     logits=candidates[0]
-    return [''.join(ALPHABET[i] for i in row).split('_',1)[0] for row in logits.argmax(-1)],logits
+    return [''.join(alphabet[i] for i in row).split(pad,1)[0] for row in logits.argmax(-1)],logits
 class Backend:
-    def __init__(self,kind,path):
+    def __init__(self,kind,path,config_path=None):
         self.kind=kind
+        self.config_path=config_path or Path(__file__).resolve().parents[1]/'config/cct_s_v2_global_plate_config.yaml'
+        self.alphabet,self.pad=ALPHABET,'_'
+        if config_path:
+            import yaml
+            spec=yaml.safe_load(Path(config_path).read_text())
+            self.alphabet,self.pad=spec['alphabet'],spec['pad_char']
         if kind=='onnx':
             import onnxruntime as ort
             self.model=ort.InferenceSession(path,providers=['CPUExecutionProvider']); inp=self.model.get_inputs()[0]
@@ -20,7 +26,7 @@ class Backend:
         elif kind=='native':
             from fast_plate_ocr.train.utilities.utils import load_keras_model
             from fast_plate_ocr.train.model.config import load_plate_config_from_yaml
-            config=load_plate_config_from_yaml(Path(__file__).resolve().parents[1]/'config/cct_s_v2_global_plate_config.yaml')
+            config=load_plate_config_from_yaml(Path(self.config_path))
             self.model=load_keras_model(Path(path),config);self.shape=self.model.input_shape;self.dtype=np.float32
         else:
             from trt_runtime import Runtime
@@ -31,18 +37,18 @@ class Backend:
         if self.kind=='onnx':out=self.model.run(None,{self.model.get_inputs()[0].name:x})
         elif self.kind=='native':out=self.model(x,training=False)
         else:out=self.model.run(x)
-        return decode(out)
+        return decode(out,self.alphabet,self.pad)
     def close(self):
         if self.kind=='trt':self.model.close()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--backend',choices=['native','onnx','trt'],required=True);p.add_argument('--model',required=True);p.add_argument('--annotations',default='dummy_data/val_annotations.csv');p.add_argument('--output',default='artifacts/evaluation.json');p.add_argument('--batch-size',type=int,default=1);p.add_argument('--repeats',type=int,default=1);p.add_argument('--warmups',type=int,default=5);p.add_argument('--compare-onnx');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--backend',choices=['native','onnx','trt'],required=True);p.add_argument('--model',required=True);p.add_argument('--annotations',default='dummy_data/val_annotations.csv');p.add_argument('--output',default='artifacts/evaluation.json');p.add_argument('--batch-size',type=int,default=1);p.add_argument('--repeats',type=int,default=1);p.add_argument('--warmups',type=int,default=5);p.add_argument('--compare-onnx');p.add_argument('--plate-config');a=p.parse_args()
     if min(a.batch_size,a.repeats)<1:raise ValueError('Positive batch/repeats required')
     f=Path(a.annotations);rows=list(csv.DictReader(f.open()));images=[]
     for r in rows:
         im=cv2.imread(str(f.parent/r['image_path']))
         if im is None:raise ValueError(r['image_path'])
         images.append(cv2.cvtColor(im,cv2.COLOR_BGR2RGB))
-    b=Backend(a.backend,a.model);ref=Backend('onnx',a.compare_onnx) if a.compare_onnx else None
+    b=Backend(a.backend,a.model,a.plate_config);ref=Backend('onnx',a.compare_onnx,a.plate_config) if a.compare_onnx else None
     try:
         for _ in range(a.warmups):b.infer(images[:a.batch_size])
         times=[];records=[];max_error=0.;argmax_diffs=0

@@ -57,6 +57,20 @@ class Runtime:
         for n,out in outputs.items():self.cuda.memcpy_dtoh(out,self.allocations[n][0])
         return list(outputs.values())
     def close(self):
-        for allocation,_ in getattr(self,'allocations',{}).values():allocation.free()
-        self.allocations={}
-        if getattr(self,'device_context',None):self.device_context.pop();self.device_context.detach();self.device_context=None
+        device_context = getattr(self, "device_context", None)
+        if device_context is None:
+            return
+        try:
+            if getattr(self, "stream", None) is not None:
+                self.stream.synchronize()
+            self.context = None
+            self.engine = None
+            self.runtime = None
+            for allocation, _ in self.allocations.values():
+                allocation.free()
+            self.allocations.clear()
+            self.stream = None
+        finally:
+            device_context.pop()
+            device_context.detach()
+            self.device_context = None
